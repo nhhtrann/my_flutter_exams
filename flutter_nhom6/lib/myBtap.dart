@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_nhom6/loginpage.dart';
 
-// --- 1. IMPORT CÁC FILE BÀI TẬP CỦA BẠN TẠI ĐÂY ---
-// (Hãy đảm bảo tên file và đường dẫn đúng với dự án của bạn)
+// --- IMPORT CÁC FILE BÀI TẬP ---
 import 'myhomepage.dart';
 import 'myplace.dart';
 import 'myagoda.dart';
@@ -15,12 +14,10 @@ import 'Countdown_Timer.dart';
 import 'loginform.dart';
 import 'registerform.dart';
 import 'screens/news_list.dart';
-import 'myBtap.dart';
 
-// --- 2. CẤU HÌNH MENU ---
 class Exercise {
-  final String title;     // Tên hiển thị trên Menu
-  final Widget screen;    // Màn hình sẽ hiện ra (Class của bài tập)
+  final String title;
+  final Widget screen;
 
   Exercise(this.title, this.screen);
 }
@@ -29,119 +26,155 @@ class MyBtap extends StatefulWidget {
   const MyBtap({super.key});
 
   @override
-  State<MyBtap> createState() => _DrawerScreenState();
+  State<MyBtap> createState() => _SplitScreenState();
 }
 
-class _DrawerScreenState extends State<MyBtap> {
-  
-  // Danh sách các bài tập (Bạn thêm bớt bài tập ở đây)
+class _SplitScreenState extends State<MyBtap> {
+  // Danh sách bài tập
   final List<Exercise> exercises = [
-    // [Tên hiển thị] - [Tên Class màn hình tương ứng]
-    Exercise("Test ngày đầu Flutter", const MyHomePage()), 
+    Exercise("Test ngày đầu Flutter", const MyHomePage()),
     Exercise("Hoang mạc Saharah", const MyPlace()),
     Exercise("Danh sách chỗ nghỉ Agoda", const MyAgoda()),
-    Exercise("My Guide", const MyGuide()), 
+    Exercise("My Guide", const MyGuide()),
     Exercise("Danh sách lớp học", const MyList()),
-    Exercise("Đổi màu nền", const Doimaunen()), 
-    Exercise("Ứng dụng đếm số", const CounterApp()), 
-    Exercise("Bộ đếm thời gian", const CountdownTimer()), 
-    Exercise("Đăng nhập (Form Login)", const LoginForm()), // Giả sử class trong loginform.dart là LoginForm
-    Exercise("Đăng ký (Form Register)", const RegisterForm()), 
-    Exercise("Danh sách sản phẩm ", const MyProduct()), 
-    Exercise("Danh sách sản phẩm và chi tiết", const NewsListScreen()), 
+    Exercise("Đổi màu nền", const Doimaunen()),
+    Exercise("Ứng dụng đếm số", const CounterApp()),
+    Exercise("Bộ đếm thời gian", const CountdownTimer()),
+    Exercise("Đăng nhập (Form Login)", const LoginForm()),
+    Exercise("Đăng ký (Form Register)", const RegisterForm()),
+    Exercise("Danh sách sản phẩm", const MyProduct()),
+    Exercise("Danh sách & Chi tiết (News)", const NewsListScreen()),
     Exercise("Đăng nhập (Postman)", const LoginPage()),
   ];
 
-  // Biến lưu màn hình đang chọn. Mặc định là null (Màn hình chờ)
   Widget? _currentScreen;
-  String _currentTitle = "Hệ thống học tập"; // Tiêu đề mặc định
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_currentTitle),
+        // --- PHẦN BÊN TRÁI: NÚT TRANG CHỦ ---
+        title: GestureDetector(
+          onTap: () {
+            setState(() {
+              _currentScreen = null; // Reset về màn hình chờ
+            });
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(Icons.home, size: 28),
+              SizedBox(width: 10),
+              Text(
+                "Trang chủ",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+        
+        // --- PHẦN BÊN PHẢI: TÊN SINH VIÊN (MỚI THÊM VÀO) ---
+        actions: [
+          Center(
+            child: Text(
+              "Nguyễn Hoàng Huyền Trân",
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const SizedBox(width: 10), // Khoảng cách giữa tên và icon
+          const CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 18,
+            child: Icon(Icons.pets, color: Colors.blue), // Icon đại diện
+          ),
+          const SizedBox(width: 20), // Khoảng cách lề phải ngoài cùng
+        ],
+
         backgroundColor: Colors.blue[800],
         foregroundColor: Colors.white,
       ),
-      
-      // --- MENU BÊN TRÁI (DRAWER) ---
-      drawer: Drawer(
-        child: Column(
-          children: [
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue[900]),
-              accountName: const Text("Nguyễn Hoàng Huyền Trân"),
-              accountEmail: const Text("Danh sách các bài đã làm"),
-              currentAccountPicture: const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(Icons.folder_copy, size: 40, color: Colors.blue),
-              ),
-            ),
-            
-            Expanded(
-              child: ListView.separated(
-                padding: EdgeInsets.zero,
-                itemCount: exercises.length,
-                separatorBuilder: (ctx, i) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final item = exercises[index];
-                  
-                  return ListTile(
-                    leading: const Icon(Icons.code), // Icon code cho mọi bài
-                    title: Text(item.title),
-                    onTap: () {
-                      // Khi bấm vào bài tập:
-                      setState(() {
-                        _currentScreen = item.screen; // 1. Đổi nội dung body
-                        _currentTitle = item.title;   // 2. Đổi tiêu đề Appbar (nếu muốn)
-                      });
-                      Navigator.pop(context); // 3. Đóng Drawer
+      body: Row(
+        children: [
+          // === MENU BÊN TRÁI ===
+          Container(
+            width: 300,
+            color: Colors.grey[100],
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  color: Colors.blue[50],
+                  child: Row(
+                    children: const [
+                      Icon(Icons.folder_copy, color: Colors.blue),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "Danh sách bài tập",
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: exercises.length,
+                    separatorBuilder: (ctx, i) => const Divider(height: 1),
+                    itemBuilder: (context, index) {
+                      final item = exercises[index];
+                      final isSelected = item.screen == _currentScreen;
+
+                      return ListTile(
+                        tileColor: isSelected ? Colors.blue.withOpacity(0.1) : null,
+                        leading: Icon(Icons.code, color: isSelected ? Colors.blue : Colors.grey),
+                        title: Text(
+                          item.title,
+                          style: TextStyle(
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            color: isSelected ? Colors.blue[900] : Colors.black,
+                          ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _currentScreen = item.screen;
+                          });
+                        },
+                      );
                     },
-                  );
-                },
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const VerticalDivider(width: 1, thickness: 1, color: Colors.grey),
+
+          // === NỘI DUNG BÊN PHẢI ===
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              child: ClipRect(
+                child: _currentScreen ?? _buildWelcomeScreen(),
               ),
             ),
-
-            // Nút reset về màn hình chờ
-            const Divider(),
-            ListTile(
-              leading: const Icon(Icons.home, color: Colors.red),
-              title: const Text("Về màn hình chính"),
-              onTap: () {
-                setState(() {
-                  _currentScreen = null;
-                  _currentTitle = "Hệ thống học tập";
-                });
-                Navigator.pop(context);
-              },
-            )
-          ],
-        ),
+          ),
+        ],
       ),
-
-      // --- NỘI DUNG CHÍNH (BODY) ---
-      // Nếu _currentScreen có dữ liệu (đã chọn bài) thì hiển thị bài đó
-      // Nếu chưa chọn thì hiển thị màn hình chờ (buildEmptyState)
-      body: _currentScreen ?? buildEmptyState(),
     );
   }
 
-  // Màn hình chờ khi chưa chọn bài tập nào
-  Widget buildEmptyState() {
+  // Màn hình chào mừng
+  Widget _buildWelcomeScreen() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.flutter_dash, size: 100, color: Colors.blue[200]),
-          const SizedBox(height: 20),
           const Text(
-            "Vui lòng chọn bài tập từ Menu",
-            style: TextStyle(fontSize: 18, color: Colors.grey),
+            "⬅️ Chọn một bài tập từ danh sách bên trái",
+            style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
-          const SizedBox(height: 20),
-          
-          
         ],
       ),
     );

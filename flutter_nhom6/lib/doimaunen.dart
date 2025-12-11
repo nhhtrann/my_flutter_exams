@@ -56,7 +56,7 @@ class _ColorChangeAppState extends State<Doimaunen> {
             "Ứng dụng đổi màu nền",
             style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: Colors.black,
+          backgroundColor: const Color.fromARGB(255, 197, 139, 211),
           centerTitle: true,
         ),
         body: Center(

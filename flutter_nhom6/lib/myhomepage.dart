@@ -10,8 +10,8 @@ class MyHomePage extends StatelessWidget {
 }
 Widget myBody() {
   return Center(
-    child: Text("helooooooooooooo",
-     style : TextStyle(color: Colors.red, fontSize: 30),
+    child: Text("Flutter",
+     style : TextStyle(color: const Color.fromARGB(255, 54, 108, 244), fontSize: 30),
     ), 
   );
 }
