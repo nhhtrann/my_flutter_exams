@@ -90,7 +90,7 @@ class _SplitScreenState extends State<MyBtap> {
           const SizedBox(width: 20), // Khoảng cách lề phải ngoài cùng
         ],
 
-        backgroundColor: Colors.blue[800],
+        backgroundColor: const Color.fromARGB(255, 214, 127, 220),
         foregroundColor: Colors.white,
       ),
       body: Row(
@@ -106,12 +106,12 @@ class _SplitScreenState extends State<MyBtap> {
                   color: Colors.blue[50],
                   child: Row(
                     children: const [
-                      Icon(Icons.folder_copy, color: Colors.blue),
+                      Icon(Icons.folder_copy, color: const Color.fromARGB(255, 214, 127, 220)),
                       SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           "Danh sách bài tập",
-                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 219, 144, 230)),
                         ),
                       ),
                     ],
@@ -172,8 +172,8 @@ class _SplitScreenState extends State<MyBtap> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text(
-            "⬅️ Chọn một bài tập từ danh sách bên trái",
-            style: TextStyle(fontSize: 16, color: Colors.grey),
+            "Chọn một bài tập từ danh sách bên trái",
+            style: TextStyle(fontSize: 20, color: Colors.grey),
           ),
         ],
       ),
