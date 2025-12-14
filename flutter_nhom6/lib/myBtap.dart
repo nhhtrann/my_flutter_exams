@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_nhom6/loginpage.dart';
 
-// --- IMPORT CÁC FILE BÀI TẬP ---
 import 'myhomepage.dart';
 import 'myplace.dart';
 import 'myagoda.dart';
@@ -30,7 +29,6 @@ class MyBtap extends StatefulWidget {
 }
 
 class _SplitScreenState extends State<MyBtap> {
-  // Danh sách bài tập
   final List<Exercise> exercises = [
     Exercise("Test ngày đầu Flutter", const MyHomePage()),
     Exercise("Hoang mạc Saharah", const MyPlace()),
@@ -53,11 +51,10 @@ class _SplitScreenState extends State<MyBtap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // --- PHẦN BÊN TRÁI: NÚT TRANG CHỦ ---
         title: GestureDetector(
           onTap: () {
             setState(() {
-              _currentScreen = null; // Reset về màn hình chờ
+              _currentScreen = null;
             });
           },
           child: Row(
@@ -72,8 +69,6 @@ class _SplitScreenState extends State<MyBtap> {
             ],
           ),
         ),
-        
-        // --- PHẦN BÊN PHẢI: TÊN SINH VIÊN (MỚI THÊM VÀO) ---
         actions: [
           Center(
             child: Text(
@@ -81,13 +76,13 @@ class _SplitScreenState extends State<MyBtap> {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
-          const SizedBox(width: 10), // Khoảng cách giữa tên và icon
+          const SizedBox(width: 10), 
           const CircleAvatar(
             backgroundColor: Colors.white,
             radius: 18,
-            child: Icon(Icons.pets, color: Colors.blue), // Icon đại diện
+            child: Icon(Icons.pets, color: Colors.blue),
           ),
-          const SizedBox(width: 20), // Khoảng cách lề phải ngoài cùng
+          const SizedBox(width: 20),
         ],
 
         backgroundColor: const Color.fromARGB(255, 214, 127, 220),
@@ -95,7 +90,6 @@ class _SplitScreenState extends State<MyBtap> {
       ),
       body: Row(
         children: [
-          // === MENU BÊN TRÁI ===
           Container(
             width: 300,
             color: Colors.grey[100],
@@ -127,13 +121,12 @@ class _SplitScreenState extends State<MyBtap> {
                       final isSelected = item.screen == _currentScreen;
 
                       return ListTile(
-                        tileColor: isSelected ? Colors.blue.withOpacity(0.1) : null,
-                        leading: Icon(Icons.code, color: isSelected ? Colors.blue : Colors.grey),
+                        tileColor: isSelected ? const Color.fromARGB(255, 205, 103, 190).withOpacity(0.1) : null,
                         title: Text(
                           item.title,
                           style: TextStyle(
                             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                            color: isSelected ? Colors.blue[900] : Colors.black,
+                            color: isSelected ? const Color.fromARGB(255, 199, 124, 209) : Colors.black,
                           ),
                         ),
                         onTap: () {
@@ -151,7 +144,6 @@ class _SplitScreenState extends State<MyBtap> {
 
           const VerticalDivider(width: 1, thickness: 1, color: Colors.grey),
 
-          // === NỘI DUNG BÊN PHẢI ===
           Expanded(
             child: Container(
               color: Colors.white,
@@ -165,7 +157,6 @@ class _SplitScreenState extends State<MyBtap> {
     );
   }
 
-  // Màn hình chào mừng
   Widget _buildWelcomeScreen() {
     return Center(
       child: Column(
